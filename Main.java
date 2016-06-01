@@ -1,4 +1,4 @@
-package com.company;
+
 
 import org.jsoup.Connection;
 import org.jsoup.Jsoup;
@@ -13,7 +13,7 @@ import java.util.HashMap;
 public class Main {
 
     public static final String USERNAME = "BAL_jfbeaubien";
-    public static final String PASSWORD = "ya.... no";
+    public static final String PASSWORD = "monkeyfarts";
 
     public static final String URL = "https://ps.seattleschools.org/public/";
     public static final String POST_URL = "https://ps.seattleschools.org/guardian/home.html";
@@ -94,9 +94,11 @@ public class Main {
         Elements teachers = doc.select("td[align='left']");
         for(int i = 1; i < teachers.size(); i+=2) {
 
-            String fullText = teachers.get(i).text();
+            String fullText = teachers.get(i).text().replaceAll("//s+", ".");
 
-            System.out.println(fullText.indexOf(" "));
+            System.out.println(fullText);
+
+            teacherList.add(fullText);
             //String classText = fullText.substring(0, fullText.indexOf("   "));
             //String teacherText = fullText.substring(fullText.indexOf("   ") + 3);
 
@@ -104,6 +106,11 @@ public class Main {
             //coursesList.add(classText);
 
 
+        }
+
+        for(int i = 0; i < gradeLetter.size(); i++) {
+
+            System.out.println(teacherList.get(i) + " | Grade: " + gradeLetter.get(i) + " (" + gradeNumber.get(i) + ")");
         }
 
         //for(int p = 0; p < gradeLetter.size(); p++) {
@@ -115,7 +122,7 @@ public class Main {
         //System.out.println(gradeLetter);
         //System.out.println(gradeNumber);
 
-        //System.out.println(doc.body());
+        System.out.println(doc.body());
 
 
     }
