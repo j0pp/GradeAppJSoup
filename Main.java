@@ -3,6 +3,7 @@ package com.company;
 import org.jsoup.Connection;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
+import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 
 import java.io.IOException;
@@ -12,7 +13,7 @@ import java.util.HashMap;
 public class Main {
 
     public static final String USERNAME = "BAL_jfbeaubien";
-    public static final String PASSWORD = "monkeyfarts";
+    public static final String PASSWORD = "ya.... no";
 
     public static final String URL = "https://ps.seattleschools.org/public/";
     public static final String POST_URL = "https://ps.seattleschools.org/guardian/home.html";
@@ -20,11 +21,11 @@ public class Main {
     public static final String userAgent = "\"Mozilla/5.0 (Windows NT\" +\n" +
             "          \" 6.1; WOW64) AppleWebKit/535.2 (KHTML, like Gecko) Chrome/15.0.874.120 Safari/535.2\"";
 
-    public static ArrayList<String> gradeNumber = new ArrayList<>();
-    public static ArrayList<Character> gradeLetter = new ArrayList<>();
+    public static ArrayList<Double> gradeNumber = new ArrayList<>();
+    public static ArrayList<String> gradeLetter = new ArrayList<>();
 
-    public static ArrayList<String> teachers = new ArrayList<>();
-    public static ArrayList<String> courses = new ArrayList<>();
+    public static ArrayList<String> teacherList = new ArrayList<>();
+    public static ArrayList<String> coursesList = new ArrayList<>();
 
 
 
@@ -73,40 +74,48 @@ public class Main {
         Document doc = Jsoup.parse(homePage.parse().html());
 
 
-        System.out.println(doc);
+        //System.out.println(doc);
 
-        /*
+        //Get persons name
+        String name = doc.select("div#sps-stdemo-non-conf").select("h1").first().text();
+        System.out.println(name);
 
-        //Get ALL Semester 2 grades + letters
-        Elements grades = doc.select("#tblgrades tr").select("[headers='tblgr-s2']");
+        //Getting Grades for Semester 2
+        Elements grades = doc.select("td.colorMyGrade").select("[href*='fg=S2']");
+        for(Element j : grades) {
 
-        System.out.println(grades);
-
-        for(int i = 1; i < grades.size(); i += 2) {
-            gradeNumber.add(grades.get(i).text());
+            if(!j.text().equals("--")) {
+                String gradeText = j.text();
+                gradeLetter.add(gradeText.substring(0, gradeText.indexOf(" ")));
+                gradeNumber.add(Double.parseDouble(gradeText.substring(gradeText.indexOf(" ") + 1)));
+            }
         }
 
-        //Get ALL Teachers
-        Elements teacherElements = doc.select("#tblgrades tr").select("[headers='tblgr-course']");
-        for(int i = 1; i < teacherElements.size(); i += 2) {
-            teachers.add(teacherElements.get(i).text());
+        Elements teachers = doc.select("td[align='left']");
+        for(int i = 1; i < teachers.size(); i+=2) {
+
+            String fullText = teachers.get(i).text();
+
+            System.out.println(fullText.indexOf(" "));
+            //String classText = fullText.substring(0, fullText.indexOf("   "));
+            //String teacherText = fullText.substring(fullText.indexOf("   ") + 3);
+
+            //teacherList.add(teacherText);
+            //coursesList.add(classText);
+
+
         }
 
-        for(int j = 0; j < teachers.size(); j++) {
-            System.out.print(teachers.get(j) + " | Grade: ");
-            System.out.println(gradeNumber.get(j));
-            System.out.println();
-        }
+        //for(int p = 0; p < gradeLetter.size(); p++) {
+            //System.out.println(teacherList.get(p) + "/ " + teacherList.get(p) + ": " + gradeLetter.get(p) + "/ " + gradeNumber.get(p));
+        //}
+        //System.out.println(teacherList);
 
-        double GPA = 0;
 
-        for(String s : gradeNumber) {
-            GPA += Double.parseDouble(s.substring(s.indexOf(" ") + 1));
-        }
+        //System.out.println(gradeLetter);
+        //System.out.println(gradeNumber);
 
-        System.out.println("Average: " + GPA / (gradeNumber.size()));
-
-        */
+        //System.out.println(doc.body());
 
 
     }
