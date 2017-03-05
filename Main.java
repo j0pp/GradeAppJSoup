@@ -13,7 +13,7 @@ import java.util.HashMap;
 public class Main {
 
     public static final String USERNAME = "BAL_jfbeaubien";
-    public static final String PASSWORD = "monkeyfarts";
+    public static final String PASSWORD = [REDACTED];
 
     public static final String URL = "https://ps.seattleschools.org/public/";
     public static final String POST_URL = "https://ps.seattleschools.org/guardian/home.html";
